@@ -1,5 +1,8 @@
 package com.hng.stageOne.controller;
 
+import com.hng.stageOne.dto.ResponseDto;
+import com.hng.stageOne.exception.exceptionHandler.CityNotFoundException;
+import com.hng.stageOne.exception.exceptionHandler.InternalErrorException;
 import com.hng.stageOne.service.HelloService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +19,7 @@ public class HelloController {
     @Autowired
     private HelloService helloService;
     @GetMapping("/hello")
-    public Map<String, Object> sayHello(@RequestParam String visitor_name, HttpServletRequest request){
+    public ResponseDto sayHello(@RequestParam String visitor_name, HttpServletRequest request) throws CityNotFoundException, InternalErrorException {
         return helloService.sayHello(visitor_name, request);
     }
 }
