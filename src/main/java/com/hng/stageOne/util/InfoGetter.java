@@ -16,15 +16,23 @@ public class InfoGetter {
     private String apiKey;
 
     public String getClientIpAddress(HttpServletRequest request){
-        String client_ip;
-        String xForwardedFor = request.getHeader("X-Forwarded-For");
-        if(xForwardedFor == null){
-            client_ip = request.getRemoteAddr();
+        String clientIp = request.getHeader("X-Forwarded-For");
+        if (clientIp == null || clientIp.isEmpty() || "unknown".equalsIgnoreCase(clientIp)) {
+            clientIp = request.getHeader("Proxy-Client-IP");
         }
-        else {
-            client_ip = xForwardedFor.split(",")[0];
+        if (clientIp == null || clientIp.isEmpty() || "unknown".equalsIgnoreCase(clientIp)) {
+            clientIp = request.getHeader("WL-Proxy-Client-IP");
         }
-        return client_ip;
+        if (clientIp == null || clientIp.isEmpty() || "unknown".equalsIgnoreCase(clientIp)) {
+            clientIp = request.getHeader("HTTP_CLIENT_IP");
+        }
+        if (clientIp == null || clientIp.isEmpty() || "unknown".equalsIgnoreCase(clientIp)) {
+            clientIp = request.getHeader("HTTP_X_FORWARDED_FOR");
+        }
+        if (clientIp == null || clientIp.isEmpty() || "unknown".equalsIgnoreCase(clientIp)) {
+            clientIp = request.getRemoteAddr();
+        }
+        return clientIp;
     }
     public String getLocation(String ip) throws CityNotFoundException {
         String apiUrl = "https://ip-api.com/json" + ip;
