@@ -17,6 +17,10 @@ public class InfoGetter {
 
     public String getClientIpAddress(HttpServletRequest request){
         String clientIp = request.getHeader("X-Forwarded-For");
+        if (clientIp != null && !clientIp.isEmpty() && !"unknown".equalsIgnoreCase(clientIp)) {
+            // Split the header and return the first IP
+            return clientIp.split(",")[0];
+        }
         if (clientIp == null || clientIp.isEmpty() || "unknown".equalsIgnoreCase(clientIp)) {
             clientIp = request.getHeader("Proxy-Client-IP");
         }
@@ -35,7 +39,7 @@ public class InfoGetter {
         return clientIp;
     }
     public String getLocation(String ip) throws CityNotFoundException {
-        String apiUrl = "https://ip-api.com/json" + ip;
+        String apiUrl = "https://ip-api.com/json/" + ip;
         RestTemplate restTemplate = new RestTemplate();
 
         try {
