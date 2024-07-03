@@ -15,7 +15,7 @@ public class InfoGetter {
     private String apiKey;
 
     public String getLocation(String ip) throws CityNotFoundException {
-        String apiUrl = "https://ipapi.co/" + ip + "/json/";
+        String apiUrl = "https://ipapi.co/" + ip  + "/json/";
         RestTemplate restTemplate = new RestTemplate();
 
         try {
