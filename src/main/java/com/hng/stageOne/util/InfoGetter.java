@@ -2,6 +2,7 @@ package com.hng.stageOne.util;
 
 import com.hng.stageOne.exception.exceptionHandler.CityNotFoundException;
 import com.hng.stageOne.exception.exceptionHandler.InternalErrorException;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
@@ -14,8 +15,19 @@ public class InfoGetter {
     @Value("${api.key}")
     private String apiKey;
 
+    public String getClientIpAddress(HttpServletRequest request){
+        String client_ip;
+        String xForwardedFor = request.getHeader("X-Forwarded-For");
+        if(xForwardedFor == null){
+            client_ip = request.getRemoteAddr();
+        }
+        else {
+            client_ip = xForwardedFor.split(",")[0];
+        }
+        return client_ip;
+    }
     public String getLocation(String ip) throws CityNotFoundException {
-        String apiUrl = "https://ip-api.com/" + ip  + "/json/";
+        String apiUrl = "https://ip-api.com/json" + ip;
         RestTemplate restTemplate = new RestTemplate();
 
         try {
@@ -52,4 +64,5 @@ public class InfoGetter {
             throw new InternalErrorException("Error retrieving weather data for location: " + location + ", " + e.getMessage());
         }
     }
+
 }

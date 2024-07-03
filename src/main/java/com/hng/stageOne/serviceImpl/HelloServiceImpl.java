@@ -16,7 +16,7 @@ public class HelloServiceImpl implements HelloService {
 
     @Override
     public ResponseDto sayHello(String visitor_name, HttpServletRequest request) throws CityNotFoundException, InternalErrorException {
-        String client_ip = request.getRemoteAddr();
+        String client_ip = infoGetter.getClientIpAddress(request);
         String clientLocation = infoGetter.getLocation(client_ip);
         String temperature = infoGetter.getTemperature(clientLocation);
 
