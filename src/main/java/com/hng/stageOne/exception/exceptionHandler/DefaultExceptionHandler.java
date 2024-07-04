@@ -15,7 +15,7 @@ public class DefaultExceptionHandler {
     public ResponseEntity<?> internalServerErrorException(InternalErrorException exception){
         ExceptionResponse<Map<String, String>> exceptionResponse = new ExceptionResponse<>();
         exceptionResponse.setTimestamp(Instant.now());
-        exceptionResponse.setMessage("Internal Error!");
+        exceptionResponse.setMessage(exception.getMessage());
         exceptionResponse.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
         exceptionResponse.setData(null);
         return new ResponseEntity<>(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -24,7 +24,7 @@ public class DefaultExceptionHandler {
     public ResponseEntity<?> cityNotFoundException(CityNotFoundException exception){
         ExceptionResponse<Map<String, String>> exceptionResponse = new ExceptionResponse<>();
         exceptionResponse.setTimestamp(Instant.now());
-        exceptionResponse.setMessage("City Not Found!");
+        exceptionResponse.setMessage(exception.getMessage());
         exceptionResponse.setStatus(HttpStatus.NOT_FOUND.value());
         exceptionResponse.setData(null);
         return new ResponseEntity<>(exceptionResponse, HttpStatus.NOT_FOUND);

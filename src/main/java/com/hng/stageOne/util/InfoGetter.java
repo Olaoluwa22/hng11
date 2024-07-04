@@ -39,7 +39,7 @@ public class InfoGetter {
         return clientIp;
     }
     public String getLocation(String ip) throws CityNotFoundException {
-        String apiUrl = "https://ip-api.com/json/" + ip;
+        String apiUrl = "http://ip-api.com/json/"+ip;
         RestTemplate restTemplate = new RestTemplate();
 
         try {
